@@ -55,7 +55,6 @@ function getStringLength(value) {
 function getStringFromTemplate(firstName, lastName) {
   return `Hello, ${firstName} ${lastName}!`;
 }
-console.log(getStringFromTemplate('John', 'Doe'));
 /**
  * Extracts a name from template string 'Hello, First_Name Last_Name!'.
  *
@@ -69,7 +68,6 @@ console.log(getStringFromTemplate('John', 'Doe'));
 function extractNameFromTemplate(value) {
   return value.substring(7).slice(0, -1);
 }
-console.log(extractNameFromTemplate('Hello, John Doe!'));
 /**
  * Returns a first char of the given string.
  *
@@ -204,11 +202,39 @@ function extractEmails(str) {
  *             '└──────────┘\n'
  *
  */
-function getRectangleString(/* width, height */) {
-  throw new Error('Not implemented');
+function getRectangleString(width, height) {
+  let string = '';
+  // eslint-disable-next-line no-plusplus
+  for (let i = 0; i < height; i++) {
+    const row = [];
+    // eslint-disable-next-line no-plusplus
+    for (let j = 0; j < width; j++) {
+      if (i === 0 && j === 0) {
+        row.push('┌');
+      }
+      if (i === 0 && j === width - 1) {
+        row.push('┐');
+      }
+      if (i === height - 1 && j === 0) {
+        row.push('└');
+      }
+      if (i === height - 1 && j === width - 1) {
+        row.push('┘');
+      }
+      if ((i === 0 || i === height - 1) && (j > 0 && j < width - 1)) {
+        row.push('─');
+      }
+      if ((i > 0 && i < height - 1) && (j > 0 && j < width - 1)) {
+        row.push(' ');
+      }
+      if ((i > 0 && i < height - 1) && (j === 0 || j === width - 1)) {
+        row.push('│');
+      }
+    }
+    string += `${row.join('')}\n`;
+  }
+  return string;
 }
-
-
 /**
  * Encode specified string with ROT13 cipher
  * See details:  https://en.wikipedia.org/wiki/ROT13
@@ -247,6 +273,11 @@ function isString(value) {
   if (typeof value === 'string') {
     return true;
   }
+  if (typeof value === 'object') {
+    if (value instanceof String) {
+      return true;
+    }
+  }
   return false;
 }
 
@@ -274,8 +305,12 @@ function isString(value) {
  *   'Q♠' => 50
  *   'K♠' => 51
  */
-function getCardId(/* value */) {
-  throw new Error('Not implemented');
+function getCardId(value) {
+  const cardList = ['A♣', '2♣', '3♣', '4♣', '5♣', '6♣', '7♣', '8♣', '9♣', '10♣', 'J♣', 'Q♣', 'K♣',
+    'A♦', '2♦', '3♦', '4♦', '5♦', '6♦', '7♦', '8♦', '9♦', '10♦', 'J♦', 'Q♦', 'K♦',
+    'A♥', '2♥', '3♥', '4♥', '5♥', '6♥', '7♥', '8♥', '9♥', '10♥', 'J♥', 'Q♥', 'K♥',
+    'A♠', '2♠', '3♠', '4♠', '5♠', '6♠', '7♠', '8♠', '9♠', '10♠', 'J♠', 'Q♠', 'K♠'];
+  return cardList.indexOf(value);
 }
 
 
